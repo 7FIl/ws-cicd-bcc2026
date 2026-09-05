@@ -50,8 +50,8 @@ cp .env.example .env
 | `DB_PASSWORD` | `postgres`               | database password                                |
 | `DB_NAME`     | `todo_db`                | database name                                    |
 | `DB_SSLMODE`  | `disable`                | database ssl mode                                |
-| `IMAGE_NAME`  | `ws-cicd-bcc2026:latest` | image used by Compose for the app service        |
-| `IMAGE_TAG1   | `latest`                 | image tag used by Compose for the app service    |
+| `IMAGE_NAME`  | `ws-cicd-bcc2026`        | image name used by Compose for the app service   |
+| `IMAGE_TAG`   | `latest`                 | image tag used by Compose for the app service    |
 
 ## Run Locally
 
@@ -63,18 +63,13 @@ cp .env.example .env
 docker compose up -d postgres
 
 go mod download
-make migrate-up
+go run ./cmd/migrate -m up
 make run
 ```
 
 The API is available at http://localhost:3000 (or whatever `APP_PORT` is set to).
 
-Without `make`:
-
-```bash
-go run cmd/migrate -m up
-go run ./cmd/api
-```
+> `make migrate-up` / `make migrate-down` run inside the app container. When you run the app on your machine, call the migration binary directly with `go run ./cmd/migrate -m up` (or `-m down`).
 
 ## Run with Docker Compose
 
@@ -85,12 +80,12 @@ cp .env.example .env
 make compose-up
 ```
 
-Compose uses the image from `IMAGE_NAME` (`ghcr.io/...`) when it can be pulled, and falls back to building the local `Dockerfile` when it cannot.
+Compose uses the image `ghcr.io/${IMAGE_NAME}:${IMAGE_TAG}` when it can be pulled, and falls back to building the local `Dockerfile` when it cannot.
 
 Run the migration once the containers are up:
 
 ```bash
-docker compose exec app /app/migrate -m up
+make migrate-up
 ```
 
 Rebuild after changing the code, and stop everything when you are done:
@@ -114,8 +109,8 @@ make compose-down
 | `make compose-down`    | `docker compose down`            |
 | `make compose-restart` | `docker compose up -d --build`   |
 | `make compose-logs`    | follow the container logs        |
-| `make migrate-up`      | create the `todos` table         |
-| `make migrate-down`    | drop the `todos` table           |
+| `make migrate-up`      | create the `todos` table (in the app container) |
+| `make migrate-down`    | drop the `todos` table (in the app container)   |
 
 ## API Endpoints
 

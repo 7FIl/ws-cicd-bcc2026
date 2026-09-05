@@ -13,8 +13,8 @@ help:
 	@echo "make compose-down     - stop and remove the containers"
 	@echo "make compose-restart  - rebuild and restart the containers"
 	@echo "make compose-logs     - follow the container logs"
-	@echo "make migrate-up       - apply the database migration"
-	@echo "make migrate-down     - drop the database migration"
+	@echo "make migrate-up       - apply the database migration inside the app container"
+	@echo "make migrate-down     - drop the database migration inside the app container"
 
 run:
 	go run ./cmd/api
@@ -48,7 +48,7 @@ compose-logs:
 	docker compose logs -f
 
 migrate-up:
-	go run ./cmd/migrate -m up
+	docker compose exec -T app ./migrate -m up
 
 migrate-down:
-	go run ./cmd/migrate -m down
+	docker compose exec -T app ./migrate -m down
