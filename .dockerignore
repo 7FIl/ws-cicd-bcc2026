@@ -1,0 +1,10 @@
+.git
+.github
+.env
+*.md
+bin
+tmp
+Makefile
+docker-compose.yml
+Dockerfile
+.golangci.yml

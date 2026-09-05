@@ -1,0 +1,34 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: standard
+  enable:
+    - bodyclose
+    - errorlint
+    - gocritic
+    - misspell
+    - revive
+    - unconvert
+  exclusions:
+    generated: lax
+    presets:
+      - std-error-handling
+    rules:
+      - linters:
+          - revive
+        text: "should have a package comment"
+      - linters:
+          - revive
+        text: "should have comment or be unexported"
+      - path: _test\.go
+        linters:
+          - bodyclose
+          - errcheck
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
