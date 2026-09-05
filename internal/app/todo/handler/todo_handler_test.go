@@ -64,7 +64,7 @@ func TestCreateTodoHandler(t *testing.T) {
 	todoUsecase.On("Create", entity.CreateTodoRequest{Title: "Learn Go"}).
 		Return(&entity.Todo{ID: 1, Title: "Learn Go"}, nil)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/todo", strings.NewReader(`{"title":"Learn Go"}`))
+	req := httptest.NewRequest(http.MethodPost, "/api/todos", strings.NewReader(`{"title":"Learn Go"}`))
 	req.Header.Set("Content-Type", "application/json")
 
 	res, err := newTestApp(todoUsecase).Test(req)
@@ -78,7 +78,7 @@ func TestGetAllTodoHandler(t *testing.T) {
 	todoUsecase := new(mockTodoUsecase)
 	todoUsecase.On("GetAll").Return([]entity.Todo{{ID: 1, Title: "Learn Go"}}, nil)
 
-	res, err := newTestApp(todoUsecase).Test(httptest.NewRequest(http.MethodGet, "/api/todo", nil))
+	res, err := newTestApp(todoUsecase).Test(httptest.NewRequest(http.MethodGet, "/api/todos", nil))
 
 	assert.NoError(t, err)
 	assert.Equal(t, fiber.StatusOK, res.StatusCode)
@@ -93,7 +93,7 @@ func TestGetTodoByIDNotFoundHandler(t *testing.T) {
 	todoUsecase := new(mockTodoUsecase)
 	todoUsecase.On("GetByID", uint(99)).Return(nil, usecase.ErrTodoNotFound)
 
-	res, err := newTestApp(todoUsecase).Test(httptest.NewRequest(http.MethodGet, "/api/todo/99", nil))
+	res, err := newTestApp(todoUsecase).Test(httptest.NewRequest(http.MethodGet, "/api/todos/99", nil))
 
 	assert.NoError(t, err)
 	assert.Equal(t, fiber.StatusNotFound, res.StatusCode)
@@ -104,7 +104,7 @@ func TestDeleteTodoHandler(t *testing.T) {
 	todoUsecase := new(mockTodoUsecase)
 	todoUsecase.On("Delete", uint(1)).Return(nil)
 
-	res, err := newTestApp(todoUsecase).Test(httptest.NewRequest(http.MethodDelete, "/api/todo/1", nil))
+	res, err := newTestApp(todoUsecase).Test(httptest.NewRequest(http.MethodDelete, "/api/todos/1", nil))
 
 	assert.NoError(t, err)
 	assert.Equal(t, fiber.StatusOK, res.StatusCode)
