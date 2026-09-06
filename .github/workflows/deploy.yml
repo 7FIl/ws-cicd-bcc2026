@@ -3,7 +3,6 @@ name: Deploy API Jevon
 on:
   push:
     branches:
-      - main
       - dev
 
 jobs:
