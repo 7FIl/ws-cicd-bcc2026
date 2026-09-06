@@ -74,11 +74,11 @@ jobs:
           IMAGE_NAME: ${{ github.repository_owner }}/${{ vars.IMAGE_NAME }}
           IMAGE_TAG: ${{ github.sha }}
           GHCR_USERNAME: ${{ github.repository_owner }}
-          GHCR_TOKEN: ${{ secrets.AUTH_GITHUB_TOKEN }}
+          GHCR_TOKEN: ${{ secrets.PASS }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PASS }}
+          key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           envs: IMAGE_NAME,IMAGE_TAG,GHCR_USERNAME,GHCR_TOKEN
           script: |
