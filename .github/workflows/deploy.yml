@@ -78,7 +78,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_PASS }}
           port: ${{ secrets.SSH_PORT }}
           envs: IMAGE_NAME,IMAGE_TAG,GHCR_USERNAME,GHCR_TOKEN
           script: |
