@@ -37,7 +37,6 @@ jobs:
 
       - name: Run Tests
         run: go test ./... -v -cover
-
  build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
