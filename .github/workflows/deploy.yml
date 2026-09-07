@@ -82,7 +82,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           envs: IMAGE_NAME,IMAGE_TAG,GHCR_USERNAME,GHCR_TOKEN
           script: |
-            cd $HOME/ragil/workshop/${{ github.event.repository.name }}
+            cd $HOME/workshop/${{ github.event.repository.name }}
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
             export IMAGE_NAME
             export IMAGE_TAG
